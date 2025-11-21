@@ -1,0 +1,11 @@
+version: v1beta1
+kind: Spicepod
+name: clickbench-duckdb
+
+datasets:
+  - from: file:hits.parquet
+    name: hits
+    acceleration:
+      enabled: true
+      engine: duckdb
+      mode: file

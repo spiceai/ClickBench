@@ -1,0 +1,11 @@
+version: v1beta1
+kind: Spicepod
+name: clickbench-cayenne
+
+datasets:
+  - from: file:hits.parquet
+    name: hits
+    acceleration:
+      enabled: true
+      engine: cayenne
+      mode: file

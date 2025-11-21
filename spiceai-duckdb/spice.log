@@ -1,0 +1,25 @@
+Spice.ai OSS CLI v1.9.0
+2025/11/21 15:04:16 INFO Checking for latest Spice runtime release...
+2025/11/21 15:04:16 INFO Spice runtime installation required
+2025/11/21 15:04:17 INFO Downloading and installing Spice.ai Runtime v1.9.0 ...
+2025/11/21 15:04:17 WARN Spice detected a GPU, but the GPU version (121) is not supported for model acceleration. Spice will fallback to using the CPU to run local models, which may impact performance.
+2025/11/21 15:04:17 INFO Downloading Spice runtime (spiced_models_linux_aarch64.tar.gz)...
+Downloading: 14.8% (24.4/165.1 MB) @ 47.1 MB/s ETA: 2sDownloading: 31.4% (51.9/165.1 MB) @ 50.9 MB/s ETA: 2sDownloading: 48.5% (80.1/165.1 MB) @ 50.6 MB/s ETA: 1sDownloading: 63.9% (105.5/165.1 MB) @ 50.7 MB/s ETA: 1sDownloading: 81.0% (133.8/165.1 MB) @ 51.8 MB/s ETA: 0sDownloading: 98.4% (162.5/165.1 MB) @ 52.7 MB/s ETA: 0sDownloading: 100.0% (165.1/165.1 MB) @ 52.7 MB/s ETA: 0s
+2025/11/21 15:04:23 INFO Spice runtime installed into /home/lukim/.spice/bin successfully.
+2025/11/21 15:04:23 INFO Spice.ai runtime starting...
+[2m2025-11-21T23:04:23.113888Z[0m [32m INFO[0m [2mspiced[0m[2m:[0m Starting runtime v1.9.0+models
+[2m2025-11-21T23:04:23.132828Z[0m [32m INFO[0m [2mruntime::init::caching[0m[2m:[0m Initialized sql results cache; max size: 128.00 MiB, item ttl: 1s, hashing algorithm: Siphash, encoding: none
+[2m2025-11-21T23:04:23.133422Z[0m [32m INFO[0m [2mruntime::init::caching[0m[2m:[0m Initialized search results cache; max size: 128.00 MiB, item ttl: 1s
+[2m2025-11-21T23:04:23.133492Z[0m [32m INFO[0m [2mruntime::init::caching[0m[2m:[0m Initialized embeddings cache; max size: 128.00 MiB, item ttl: 1s
+[2m2025-11-21T23:04:23.391204Z[0m [32m INFO[0m [2mruntime::opentelemetry[0m[2m:[0m Spice Runtime OpenTelemetry listening on 127.0.0.1:50052
+[2m2025-11-21T23:04:23.391850Z[0m [32m INFO[0m [2mruntime::flight[0m[2m:[0m Spice Runtime Flight listening on 127.0.0.1:50051
+[2m2025-11-21T23:04:23.393774Z[0m [32m INFO[0m [2mruntime::http[0m[2m:[0m Spice Runtime HTTP listening on 127.0.0.1:8090
+[2m2025-11-21T23:04:23.393826Z[0m [32m INFO[0m [2mruntime::init::task_history[0m[2m:[0m Task history enabled: retention_period=28800s, retention_check_interval=900s
+[2m2025-11-21T23:04:23.429511Z[0m [32m INFO[0m [2mruntime::init::dataset[0m[2m:[0m Dataset hits initializing...
+[2m2025-11-21T23:04:23.471170Z[0m [32m INFO[0m [2mruntime::init::dataset[0m[2m:[0m Dataset hits registered (file:hits.parquet), acceleration (duckdb:file), results cache enabled.
+[2m2025-11-21T23:04:23.472420Z[0m [32m INFO[0m [2mruntime::accelerated_table::refresh_task[0m[2m:[0m Loading data for dataset hits
+[2m2025-11-21T23:04:33.519548Z[0m [32m INFO[0m [2mruntime::accelerated_table::refresh_task[0m[2m:[0m Dataset hits received 29,086,783 records
+[2m2025-11-21T23:04:43.569506Z[0m [32m INFO[0m [2mruntime::accelerated_table::refresh_task[0m[2m:[0m Dataset hits received 28,226,412 records
+[2m2025-11-21T23:04:46.863504Z[0m [32m INFO[0m [2mruntime[0m[2m:[0m Shutdown initiated; waiting up to 30s for connections to drain
+[2m2025-11-21T23:04:46.864120Z[0m [32m INFO[0m [2mspiced[0m[2m:[0m Goodbye!
+2025/11/21 15:04:48 ERROR error running Spice.ai error="signal: killed"

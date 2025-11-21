@@ -1,0 +1,22 @@
+Spice.ai OSS CLI v1.9.0
+2025/11/21 13:29:50 INFO Checking for latest Spice runtime release...
+2025/11/21 13:29:50 INFO Spice.ai runtime starting...
+[2m2025-11-21T21:29:50.700304Z[0m [32m INFO[0m [2mspiced[0m[2m:[0m Starting runtime v1.9.0-rc.1+models
+[2m2025-11-21T21:29:50.729814Z[0m [32m INFO[0m [2mruntime::init::caching[0m[2m:[0m Initialized sql results cache; max size: 128.00 MiB, item ttl: 1s
+[2m2025-11-21T21:29:50.731721Z[0m [32m INFO[0m [2mruntime::init::caching[0m[2m:[0m Initialized search results cache; max size: 128.00 MiB, item ttl: 1s
+[2m2025-11-21T21:29:50.732236Z[0m [32m INFO[0m [2mruntime::init::caching[0m[2m:[0m Initialized embeddings cache; max size: 128.00 MiB, item ttl: 1s
+[2m2025-11-21T21:29:51.090689Z[0m [32m INFO[0m [2mruntime::flight[0m[2m:[0m Spice Runtime Flight listening on 127.0.0.1:50051
+[2m2025-11-21T21:29:51.091414Z[0m [32m INFO[0m [2mruntime::opentelemetry[0m[2m:[0m Spice Runtime OpenTelemetry listening on 127.0.0.1:50052
+[2m2025-11-21T21:29:51.097922Z[0m [32m INFO[0m [2mruntime::dataaccelerator::cayenne[0m[2m:[0m ⚠️  Cayenne data accelerator is in ALPHA stage and should NOT be used in production. Data format and API may change without notice.
+[2m2025-11-21T21:29:51.098018Z[0m [32m INFO[0m [2mruntime::init::task_history[0m[2m:[0m Task history enabled: retention_period=28800s, retention_check_interval=900s
+[2m2025-11-21T21:29:51.101179Z[0m [32m INFO[0m [2mruntime::init::dataset[0m[2m:[0m Dataset hits initializing...
+[2m2025-11-21T21:29:51.101650Z[0m [32m INFO[0m [2mruntime::http[0m[2m:[0m Spice Runtime HTTP listening on 127.0.0.1:8090
+[2m2025-11-21T21:29:51.229217Z[0m [32m INFO[0m [2mruntime::init::dataset[0m[2m:[0m Dataset hits registered (file:hits.parquet), acceleration (cayenne:file), results cache enabled.
+[2m2025-11-21T21:29:51.230674Z[0m [32m INFO[0m [2mruntime::accelerated_table::refresh_task[0m[2m:[0m Loading data for dataset hits
+[2m2025-11-21T21:30:01.240649Z[0m [32m INFO[0m [2mruntime::accelerated_table::refresh_task[0m[2m:[0m Dataset hits received 38,884,925 records
+[2m2025-11-21T21:30:11.247050Z[0m [32m INFO[0m [2mruntime::accelerated_table::refresh_task[0m[2m:[0m Dataset hits received 40,562,608 records
+[2m2025-11-21T21:30:16.653663Z[0m [32m INFO[0m [2mruntime::accelerated_table::refresh_task[0m[2m:[0m Loaded 99,997,497 rows (84.93 GiB) for dataset hits in 25s 422ms.
+[2m2025-11-21T21:30:16.697254Z[0m [32m INFO[0m [2mruntime[0m[2m:[0m All components are loaded. Spice runtime is ready!
+[2m2025-11-21T21:30:20.730655Z[0m [32m INFO[0m [2mruntime[0m[2m:[0m Shutdown initiated; waiting up to 30s for connections to drain
+[2m2025-11-21T21:30:20.732518Z[0m [32m INFO[0m [2mspiced[0m[2m:[0m Goodbye!
+2025/11/21 13:30:21 ERROR error running Spice.ai error="signal: killed"

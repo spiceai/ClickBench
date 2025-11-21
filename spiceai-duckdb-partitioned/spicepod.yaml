@@ -1,0 +1,13 @@
+version: v1beta1
+kind: Spicepod
+name: clickbench-duckdb-partitioned
+
+datasets:
+  - from: https://datasets.clickhouse.com/hits_compatible/athena_partitioned/
+    name: hits
+    params:
+      file_format: parquet
+    acceleration:
+      enabled: true
+      engine: duckdb
+      mode: file
