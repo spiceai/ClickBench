@@ -1,10 +1,10 @@
-# Spice.ai (DuckDB Engine)
+# Spice.ai OSS (DuckDB Engine)
 
-[Spice.ai](https://spice.ai) is a unified SQL query interface and portable runtime that accelerates and queries data from any database, data warehouse, or data lake. This benchmark uses Spice.ai with the **DuckDB** acceleration engine.
+[Spice.ai OSS](https://github.com/spiceai/spiceai) is a unified SQL query interface and portable runtime that accelerates and queries data from any database, data warehouse, or data lake. This benchmark uses Spice.ai OSS with the **DuckDB** acceleration engine.
 
 ## DuckDB Engine
 
-This variant uses DuckDB as the acceleration engine within Spice.ai. DuckDB provides:
+This variant uses DuckDB as the acceleration engine within Spice.ai OSS. DuckDB provides:
 - Mature columnar analytical processing
 - Extensive SQL feature support
 - Efficient Parquet handling
@@ -25,7 +25,7 @@ Recommended hardware (for fair ClickBench comparison):
 - Linux/macOS system with bash
 - sudo access (for cache clearing)
 - `bc` utility installed
-- Internet connection for downloading Spice.ai and dataset
+- Internet connection for downloading Spice.ai OSS and dataset
 
 ### Quick Start
 
@@ -42,7 +42,7 @@ bash run.sh
 
 The `run.sh` script performs the following:
 
-1. **Installs Spice.ai** - Downloads and installs the latest Spice CLI
+1. **Installs Spice.ai OSS** - Downloads and installs the latest Spice CLI
 2. **Downloads Dataset** - Fetches the ClickBench hits.parquet file (~14.5 GB, 100M rows)
 3. **Loads Data** - Configures Spice to accelerate the dataset using the DuckDB engine
 4. **Runs Queries** - Executes all 43 ClickBench queries with:
@@ -86,7 +86,7 @@ Results are saved in multiple formats:
 
 ### Comparison with Native DuckDB
 
-This benchmark measures Spice.ai with DuckDB as the acceleration engine, which includes:
+This benchmark measures Spice.ai OSS with DuckDB as the acceleration engine, which includes:
 - Spice runtime overhead
 - Query protocol translation
 - Additional abstraction layers

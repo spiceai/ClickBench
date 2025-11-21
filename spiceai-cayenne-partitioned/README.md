@@ -1,6 +1,6 @@
-# Spice.ai (Cayenne Engine) - Partitioned
+# Spice.ai OSS (Cayenne Engine) - Partitioned
 
-[Spice.ai](https://spice.ai) is a unified SQL query interface and portable runtime that accelerates and queries data from any database, data warehouse, or data lake. This benchmark uses Spice.ai with the **Cayenne** acceleration engine on **partitioned Parquet files from S3**.
+[Spice.ai OSS](https://github.com/spiceai/spiceai) is a unified SQL query interface and portable runtime that accelerates and queries data from any database, data warehouse, or data lake. This benchmark uses Spice.ai OSS with the **Cayenne** acceleration engine on **partitioned Parquet files from S3**.
 
 ## Cayenne Engine
 
@@ -31,7 +31,7 @@ Recommended hardware (for fair ClickBench comparison):
 ### Prerequisites
 - Linux/macOS system with bash
 - sudo access (for cache clearing)
-- Internet connection for downloading Spice.ai and accessing dataset
+- Internet connection for downloading Spice.ai OSS and accessing S3
 
 ### Quick Start
 
@@ -48,7 +48,7 @@ bash run.sh
 
 The `run.sh` script performs the following:
 
-1. **Installs Spice.ai** - Downloads and installs the latest Spice CLI
+1. **Installs Spice.ai OSS** - Downloads and installs the latest Spice CLI
 2. **Loads Data from HTTPS** - Configures Spice to accelerate the partitioned dataset using the Cayenne engine
 3. **Waits for Acceleration** - Allows time for data to be loaded and accelerated
 4. **Runs Queries** - Executes all 43 ClickBench queries with:

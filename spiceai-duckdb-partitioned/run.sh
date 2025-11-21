@@ -2,7 +2,7 @@
 
 set -e
 
-echo "Installing Spice.ai..."
+echo "Installing Spice.ai OSS..."
 curl https://install.spiceai.org | /bin/bash
 export PATH="$HOME/.spice/bin:$PATH"
 
@@ -66,7 +66,7 @@ RESULTS=$(cat log.txt | grep -P '^\[' | sed 's/^/        /' | sed 's/,$//')
 # Create JSON output
 cat > results/c6a.4xlarge.json <<EOF
 {
-    "system": "Spice.ai (DuckDB) Partitioned",
+    "system": "Spice.ai OSS (DuckDB) Partitioned",
     "date": "$(date +%Y-%m-%d)",
     "machine": "c6a.4xlarge",
     "cluster_size": 1,
