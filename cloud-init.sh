@@ -29,8 +29,8 @@ apt-get install -y wget curl git jq earlyoom
 
 systemctl enable --now earlyoom
 
-git clone --depth 1 'https://github.com/spiceai/ClickBench.git' --branch 'phillip/spiceai-cayenne' ClickBench
-cd ClickBench/spiceai-cayenne
+git clone --depth 1 'https://github.com/spiceai/ClickBench.git' --branch 'phillip/spiceai-parquet' ClickBench
+cd ClickBench/spiceai-parquet
 
 # The log will be sent to ClickHouse and processed then by materialized views:
 
@@ -57,7 +57,7 @@ timeout 36000 ./benchmark.sh 2>&1 | tee -a log
 
 echo -n 'Disk usage after: ' | tee -a log
 df -B1 / | tail -n1 | awk '{ print $3 }' | tee -a log
-echo 'System: spiceai-cayenne' | tee -a log
+echo 'System: spiceai-parquet' | tee -a log
 echo -n 'Machine: ' | tee -a log
 curl -sS -H "X-aws-ec2-metadata-token: $(curl -X PUT "http://169.254.169.254/latest/api/token" -sS -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")" 'http://169.254.169.254/latest/meta-data/instance-type' | tee -a log
 echo | tee -a log
