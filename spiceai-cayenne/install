@@ -1,18 +1,16 @@
 #!/bin/bash
 set -e
 
-# install.spiceai.org ships the CLI only; `spice install` then downloads
-# the runtime binary (spiced) into ~/.spice/bin.
-if [ ! -x "$HOME/.spice/bin/spice" ]; then
-    curl https://install.spiceai.org | /bin/bash
-fi
+# Benchmark a 2.1.0 release-candidate spiced from CI (spiceai/spiceai
+# build_and_release run 28627069392, ff4521c3cd0a) mirrored to S3, instead
+# of the released runtime.
 if [ ! -x "$HOME/.spice/bin/spiced" ]; then
-    "$HOME/.spice/bin/spice" install >/dev/null 2>&1
+    mkdir -p "$HOME/.spice/bin"
+    curl -fsSL 'https://spiceai-public-datasets.s3.us-east-1.amazonaws.com/clickbench/spiced_linux_x86_64-2.1.0rc-ff4521c3.tar.gz' \
+        | tar -xz -C "$HOME/.spice/bin"
+    chmod +x "$HOME/.spice/bin/spiced"
 fi
 
-# Symlink into /usr/local/bin so sibling scripts (check, load, query,
-# start) find them unconditionally.
 sudo ln -sf "$HOME/.spice/bin/spiced" /usr/local/bin/spiced
-sudo ln -sf "$HOME/.spice/bin/spice" /usr/local/bin/spice
 
 spiced --version
