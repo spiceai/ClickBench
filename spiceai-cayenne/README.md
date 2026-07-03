@@ -9,11 +9,12 @@ queries are served from that acceleration through the runtime's HTTP API.
 
 Notes:
 
-- `spicepod.yaml` takes the place of `create.sql`: it defines the dataset, the
-  acceleration, and a `hits` view that casts `EventDate` (stored in the source
-  parquet as an integer) to `DATE` — the same transformation the `datafusion`
-  entry applies in its `create.sql`. `queries.sql` is identical to the
-  `datafusion` entry's.
+- `spicepod.yaml` takes the place of `create.sql`: it defines the dataset and
+  its acceleration. The dataset keeps the source parquet schema, where
+  `EventDate` is an integer (days since epoch); the queries referencing
+  `EventDate` wrap it as `to_timestamp("EventDate" * 86400)`, matching how
+  Spice's own benchmark suite runs ClickBench. Everything else in
+  `queries.sql` is identical to the `datafusion` entry's.
 - The SQL results cache (enabled by default in Spice) is disabled in
   `spicepod.yaml` per the benchmark caching rules.
 - The acceleration persists across restarts and the runtime skips re-ingestion
