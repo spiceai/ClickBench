@@ -1,0 +1,96 @@
+#!/bin/bash -x
+
+# This is the script for cloud-init, to run on a VM in unattended fashion. See run-benchmark.sh
+
+# Cloud-init runs scripts as root with no HOME exported. Tools that follow
+# XDG-ish conventions (DuckDB extensions in ~/.duckdb, the GizmoSQL one-line
+# installer that runs `sh -u`, etc.) then fall over with messages like
+# `Can't find the home directory at ''` or `HOME: parameter not set`. Set it
+# once here so every per-system install/start/load/query inherits it.
+export HOME="${HOME:-/root}"
+
+# c6a.4xlarge has 32 GB RAM with no swap. Loading the 75 GB hits.tsv into
+# row-oriented databases (mysql, mariadb, postgres, mongodb, cratedb) and
+# in-process Python servers (pandas/polars/duckdb-dataframe) fills RAM
+# during ingest, and earlyoom (or the kernel OOM killer) then takes the
+# DB out and the run dies with `Lost connection during query`. A 16 GB
+# swapfile gives those loads the headroom they need without affecting
+# query-time numbers (queries don't touch swap once the data is hot).
+if [ ! -f /swapfile ]; then
+    fallocate -l 16G /swapfile
+    chmod 600 /swapfile
+    mkswap /swapfile >/dev/null
+    swapon /swapfile
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -y
+apt-get install -y wget curl git jq earlyoom
+
+systemctl enable --now earlyoom
+
+git clone --depth 1 'https://github.com/spiceai/ClickBench.git' --branch 'phillip/spiceai-cayenne' ClickBench
+cd ClickBench/spiceai-cayenne
+
+# The log will be sent to ClickHouse and processed then by materialized views:
+
+echo -n 'System name: ' | tee -a log
+jq -r '.system' template.json | tee -a log
+echo -n 'Proprietary: ' | tee -a log
+jq -r '.proprietary' template.json | tee -a log
+echo -n 'Tuned: ' | tee -a log
+jq -r '.tuned' template.json | tee -a log
+echo -n 'Tags: ' | tee -a log
+jq -c -r '.tags' template.json | tee -a log
+
+echo -n 'Disk usage before: ' | tee -a log
+df -B1 / | tail -n1 | awk '{ print $3 }' | tee -a log
+
+# 20000s (~5.5h) wasn't enough for slow OLTP-style systems (mysql,
+# mariadb, postgresql{,-indexed,-orioledb}, mongodb, cratedb, sqlite,
+# turso, timescaledb-no-columnstore, mysql-myisam) — they hit the
+# timeout mid-load or a few queries in. 36000s (10h) clears the
+# observed worst case while still capping a runaway run. Override at
+# render time on the operator side by exporting `timeout` before
+# run-benchmark.sh.
+timeout 36000 ./benchmark.sh 2>&1 | tee -a log
+
+echo -n 'Disk usage after: ' | tee -a log
+df -B1 / | tail -n1 | awk '{ print $3 }' | tee -a log
+echo 'System: spiceai-cayenne' | tee -a log
+echo -n 'Machine: ' | tee -a log
+curl -sS -H "X-aws-ec2-metadata-token: $(curl -X PUT "http://169.254.169.254/latest/api/token" -sS -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")" 'http://169.254.169.254/latest/meta-data/instance-type' | tee -a log
+echo | tee -a log
+echo "Total time: $SECONDS" | tee -a log
+
+# Save the results.
+# First, prepare the database as in prepare-database.sql
+
+RESULTS_URL="https://play.clickhouse.com/?user=sink&query=INSERT+INTO+data+FORMAT+RawBLOB"
+
+# The sink enforces a per-row size cap. Cloud-init logs from systems that
+# build from source (e.g. compiling Hyrise/WarehousePG, pulling Spark
+# tarballs, apt-installing build-essential) can run to hundreds of MB,
+# and pushing the full file fails with a "Too large" reject — losing the
+# whole log including the diagnostic tail we actually care about. Send
+# the first 100 KB + last 900 KB of each file: the head captures the
+# `System name:` / `Proprietary:` / `Tuned:` / `Tags:` lines emitted
+# before benchmark.sh runs (a plain tail -c 1000000 dropped these on
+# build-from-source systems), and the tail still captures bench output,
+# tracebacks, and final readiness/timing lines.
+send_log() {
+    local f="$1" size
+    size=$(stat -c%s "$f" 2>/dev/null || echo 0)
+    if [ "$size" -le 1000000 ]; then
+        curl ${RESULTS_URL} --data-binary @"$f"
+    else
+        { head -c 100000 "$f"
+          printf '\n...[%d bytes truncated]...\n' "$((size - 1000000))"
+          tail -c 900000 "$f"
+        } | curl ${RESULTS_URL} --data-binary @-
+    fi
+}
+send_log log
+send_log /var/log/cloud-init-output.log
+
+shutdown now

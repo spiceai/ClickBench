@@ -1,13 +1,17 @@
 #!/bin/bash
 set -e
 
-if [ ! -x "$HOME/.spice/bin/spiced" ]; then
+# install.spiceai.org ships the CLI only; `spice install` then downloads
+# the runtime binary (spiced) into ~/.spice/bin.
+if [ ! -x "$HOME/.spice/bin/spice" ]; then
     curl https://install.spiceai.org | /bin/bash
 fi
+if [ ! -x "$HOME/.spice/bin/spiced" ]; then
+    "$HOME/.spice/bin/spice" install >/dev/null 2>&1
+fi
 
-# The installer drops binaries into ~/.spice/bin and only suggests adding it
-# to PATH. Symlink into /usr/local/bin so sibling scripts (check, load,
-# query, start) find them unconditionally.
+# Symlink into /usr/local/bin so sibling scripts (check, load, query,
+# start) find them unconditionally.
 sudo ln -sf "$HOME/.spice/bin/spiced" /usr/local/bin/spiced
 sudo ln -sf "$HOME/.spice/bin/spice" /usr/local/bin/spice
 
