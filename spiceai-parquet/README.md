@@ -1,12 +1,12 @@
-# Spice.ai OSS (Parquet)
+# Spice.ai OSS (Parquet, single)
 
 [Spice.ai OSS](https://github.com/spiceai/spiceai) is a portable, single-binary
 runtime built on Apache DataFusion that federates and accelerates SQL queries
 across databases, data warehouses, and data lakes. This entry benchmarks the
 runtime querying `hits.parquet` directly through its file connector — no
-acceleration, no data loading; the parquet file is scanned in place. See the
-`spiceai-cayenne` entry for the same runtime with its Cayenne acceleration
-engine.
+acceleration, no data loading; the single parquet file is scanned in place.
+See `spiceai-parquet-partitioned` for the 100-file variant and
+`spiceai-cayenne` for the same runtime with its Cayenne acceleration engine.
 
 Notes:
 

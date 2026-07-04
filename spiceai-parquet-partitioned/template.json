@@ -1,5 +1,5 @@
 {
-  "system": "Spice.ai OSS (Parquet, single)",
+  "system": "Spice.ai OSS (Parquet, partitioned)",
   "proprietary": "no",
   "hardware": "cpu",
   "tuned": "no",
