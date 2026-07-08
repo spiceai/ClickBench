@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e
 
-# Benchmark a 2.1.0 release-candidate spiced from CI (spiceai/spiceai
-# build_and_release run 28627069392, ff4521c3cd0a) mirrored to S3, instead
-# of the released runtime.
+# Benchmark the final 2.1.0 release-candidate spiced from CI (spiceai/spiceai
+# build_and_release run 28912392866, artifact digest sha256:35dd8978…)
+# mirrored to S3, instead of the released runtime.
 if [ ! -x "$HOME/.spice/bin/spiced" ]; then
     mkdir -p "$HOME/.spice/bin"
-    curl -fsSL 'https://spiceai-public-datasets.s3.us-east-1.amazonaws.com/clickbench/spiced_linux_x86_64-2.1.0rc-ff4521c3.tar.gz' \
+    curl -fsSL 'https://spiceai-public-datasets.s3.us-east-1.amazonaws.com/clickbench/spiced_linux_x86_64-2.1.0-final-35dd8978.tar.gz' \
         | tar -xz -C "$HOME/.spice/bin"
     chmod +x "$HOME/.spice/bin/spiced"
 fi
